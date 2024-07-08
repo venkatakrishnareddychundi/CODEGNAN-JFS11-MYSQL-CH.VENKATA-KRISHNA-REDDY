@@ -1,0 +1,203 @@
+Microsoft Windows [Version 10.0.22631.3810]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
+Enter password: ***********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 41
+Server version: 8.0.37 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database sublang;
+    
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use sublang;
+Database changed
+mysql> create table employee(id int,name varchar(25),salary int);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> alter table employee add (email varchar(30));
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | YES  |     | NULL    |       |
+| name   | varchar(25) | YES  |     | NULL    |       |
+| salary | int         | YES  |     | NULL    |       |
+| email  | varchar(30) | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table employee drop column email;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee modify column salary bigint;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int         | YES  |     | NULL    |       |
+| name   | varchar(25) | YES  |     | NULL    |       |
+| salary | bigint      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee values(1,"krishna",50000);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee values(2,"srinu",60000),(3,"mahesh",30000);
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++------+---------+--------+
+| id   | name    | salary |
++------+---------+--------+
+|    1 | krishna |  50000 |
+|    2 | srinu   |  60000 |
+|    3 | mahesh  |  30000 |
++------+---------+--------+
+3 rows in set (0.00 sec)
+
+mysql> update employee set salary=70000 where id=1;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> delete from employee where id=3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee;
++------+---------+--------+
+| id   | name    | salary |
++------+---------+--------+
+|    1 | krishna |  70000 |
+|    2 | srinu   |  60000 |
++------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> create user hr identified by "hr";
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> grant select on employee to hr;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> start transaction;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into employee values(3,"mahesh",30000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee values(4,"suresh",40000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> savepoint abc;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into employee values(5,"ramesh",80000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select *from employee;
++------+---------+--------+
+| id   | name    | salary |
++------+---------+--------+
+|    1 | krishna |  70000 |
+|    2 | srinu   |  60000 |
+|    3 | mahesh  |  30000 |
+|    4 | suresh  |  40000 |
+|    5 | ramesh  |  80000 |
++------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql> rollback to abc;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select *from employee;
++------+---------+--------+
+| id   | name    | salary |
++------+---------+--------+
+|    1 | krishna |  70000 |
+|    2 | srinu   |  60000 |
+|    3 | mahesh  |  30000 |
+|    4 | suresh  |  40000 |
++------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> revoke select on employee from hr;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx       USER       xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+Microsoft Windows [Version 10.0.22631.3810]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u hr -p
+Enter password: **
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 42
+Server version: 8.0.37 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+mysql> use sublang;
+Database changed
+mysql> select * from employee;
++------+---------+--------+
+| id   | name    | salary |
++------+---------+--------+
+|    1 | krishna |  70000 |
+|    2 | srinu   |  60000 |
++------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee;
++------+---------+--------+
+| id   | name    | salary |
++------+---------+--------+
+|    1 | krishna |  70000 |
+|    2 | srinu   |  60000 |
++------+---------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee;
++------+---------+--------+
+| id   | name    | salary |
++------+---------+--------+
+|    1 | krishna |  70000 |
+|    2 | srinu   |  60000 |
+|    3 | mahesh  |  30000 |
+|    4 | suresh  |  40000 |
++------+---------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from employee;
+ERROR 1142 (42000): SELECT command denied to user 'hr'@'localhost' for table 'employee'
+mysql>
